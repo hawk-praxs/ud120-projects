@@ -3,8 +3,8 @@
 convert dos linefeeds (crlf) to unix (lf)
 usage: dos2unix.py <input> <output>
 """
-original = "python2_lesson14_keys.pkl"
-destination = "python2_lesson14_keys.pkl"
+original = ".pkl"
+destination = ".pkl"
 
 content = ''
 outsize = 0
