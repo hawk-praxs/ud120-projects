@@ -16,7 +16,6 @@ from feature_format import featureFormat, targetFeatureSplit
 
 
 
-
 def Draw(pred, features, poi, mark_poi=False, name="image.png", f1_name="feature 1", f2_name="feature 2"):
     """ some plotting code designed to help you visualize your clusters """
 
@@ -79,6 +78,10 @@ except NameError:
     print("no predictions object named pred found, no clusters to plot")
 
 
+from sklearn.preprocessing import MinMaxScaler
+import numpy as np
+scaler = MinMaxScaler()
+
 stocks = []
 for key, value in data_dict.items():
     if value['exercised_stock_options'] != 'NaN':
@@ -86,10 +89,19 @@ for key, value in data_dict.items():
 
 print('exercised_stock_options -> Min: {} , Max: {}'.format(min(stocks), max(stocks)))
 
-
 salary = []
 for key, value in data_dict.items():
     if value['salary'] != 'NaN':
         salary.append(value['salary'])
 
 print('salary -> Min: {} , Max: {}'.format(min(salary), max(salary)))
+
+
+stocks = np.array([min(stocks),1000000.0,max(stocks)])
+salary = np.array([min(salary), 200000.0, max(salary)])
+
+stocks_rescaled = scaler.fit_transform(stocks.reshape(-1,1))
+salary_rescaled = scaler.fit_transform(salary.reshape(-1,1))
+
+print('Resclaed Stocks->\n', stocks_rescaled)
+print('Resclaed Salary->\n', salary_rescaled)
