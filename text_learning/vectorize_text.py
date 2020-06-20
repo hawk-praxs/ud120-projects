@@ -48,14 +48,24 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
             email = open(path, "r")
 
             ### use parseOutText to extract the text from the opened email
+            text = parseOutText(email)
 
             ### use str.replace() to remove any instances of the words
             ### ["sara", "shackleton", "chris", "germani"]
+            replace_words = ["sara", "shackleton", "chris", "germani"]
+
+            for word in replace_words:
+                if word in text:
+                    text.replace(word,'')
 
             ### append the text to word_data
+            word_data.append(text)
 
             ### append a 0 to from_data if email is from Sara, and 1 if email is from Chris
-
+            if name == "sara":
+                from_data.append(0)
+            else:
+                from_data.append(1)
 
             email.close()
 
@@ -66,10 +76,18 @@ from_chris.close()
 pickle.dump( word_data, open("your_word_data.pkl", "wb") )
 pickle.dump( from_data, open("your_email_authors.pkl", "wb") )
 
-
+print('word_data[152] = ', word_data[152])
 
 
 
 ### in Part 4, do TfIdf vectorization here
+from sklearn.feature_extraction.text import TfidfVectorizer
 
+vectorizer = TfidfVectorizer(stop_words="english", lowercase=True)
+vectorizer.fit_transform(word_data)
 
+feature_names = vectorizer.get_feature_names()
+
+print('Number of different words: '.len(feature_names))
+
+print('Word number 34597: ', feature_names[34597])
